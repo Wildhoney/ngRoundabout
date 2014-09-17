@@ -12,7 +12,7 @@ script:
   - npm install
   - bower install
   - grunt test
-  
+
 deploy:
   provider: heroku
   api_key:

@@ -2,3 +2,41 @@
     margin: 0;
     padding: 0;
 }
+
+body {
+    margin: 100px 450px;
+    text-align: center;
+    width: 100%;
+}
+
+section.carousel {
+    width: 210px;
+    height: 140px;
+    position: relative;
+    perspective: 1000px;
+    border: 1px solid red;
+}
+
+section.carousel section {
+    border: 1px solid green;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transform-style: preserve-3d;
+    transition: all 5s;
+    transform: translateZ(-253px) rotateY(0deg);
+}
+
+section.carousel section:hover {
+    transform: translateZ(-253px) rotateY(-225deg);
+}
+
+section.carousel section figure {
+    display: block;
+    position: absolute;
+    width: 186px;
+    height: 116px;
+    left: 10px;
+    top: 10px;
+    border: 2px solid black;
+}
