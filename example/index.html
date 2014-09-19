@@ -19,7 +19,11 @@
 </head>
 <body ng-app="carouselApp" ng-controller="PicturesController">
 
-    <section class="carousel" data-carousel="pictures"></section>
+    <carousel class="carousel" ng-model="pictures"></carousel>
+
+    <a href="#" ng-click="removeOneSet()">Remove 1 Picture Set</a>
+
+    {{ pictures.length }}
 
 </body>
 </html>
