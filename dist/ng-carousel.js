@@ -14,20 +14,59 @@
      */
     app.constant('carouselOptions', {
 
+        /**
+         * @constant DIMENSION_WIDTH
+         * @type {Number}
+         */
         DIMENSION_WIDTH: 250,
+
+        /**
+         * @constant DIMENSION_HEIGHT
+         * @type {Number}
+         */
         DIMENSION_HEIGHT: 300,
+
+        /**
+         * @constant DIMENSION_SPACING
+         * @type {Number}
+         */
         DIMENSION_SPACING: 10,
+
+        /**
+         * @constant PERSPECTIVE
+         * @type {Number}
+         */
         PERSPECTIVE: 1000,
+
+        /**
+         * @constant BACKFACE_VISIBILITY
+         * @type {String}
+         */
         BACKFACE_VISIBILITY: 'hidden',
-        MAINTAIN_WIDTH: true,
-        GROUP_PICTURES_BY: 3
+
+        /**
+         * Determines whether we should maintain the original aspect ratio when items are added
+         * and removed.
+         *
+         * @constant MAINTAIN_ASPECT_RATIO
+         * @type {Boolean}
+         */
+        MAINTAIN_ASPECT_RATIO: false,
+
+        /**
+         * Determines the path of the partial to be loaded for the figure element.
+         *
+         * @constant FIGURE_PARTIAL_PATH
+         * @type {String}
+         */
+        FIGURE_PARTIAL_PATH: 'figure.html'
 
     });
     
     /**
      * @directive Carousel
      */
-    app.directive('carousel', function CarouselDirective(carouselOptions) {
+    app.directive('carousel', ['carouselOptions', function CarouselDirective(carouselOptions) {
 
         return {
 
@@ -44,11 +83,17 @@
             require: 'ngModel',
 
             /**
+             * @property template
+             * @type {String}
+             */
+            template: '<section class="carousel-container"><figure ng-repeat="model in collection" ng-include="partial">{{applyFigureElementStyles($index)}}</figure></section>',
+
+            /**
              * @property scope
              * @type {Object}
              */
             scope: {
-                pictures: '=ngModel'
+                collection: '=ngModel'
             },
 
             /**
@@ -58,30 +103,43 @@
             controller: ['$scope', function controller($scope) {
 
                 /**
-                 * @property originalWidth
-                 * @type {Number|null}
+                 * @property currentDimensionWidth
+                 * @type {Number}
                  */
-                $scope.originalWidth = null;
+                $scope.currentDimensionWidth = 0;
 
                 /**
-                 * @property originalDimension
-                 * @type {Number|null}
+                 * Denotes whether we have memorised the original options, which relates to the maintaining
+                 * of the aspect ratio.
+                 *
+                 * @property memorisedOptions
+                 * @type {Boolean}
                  */
-                $scope.originalDimension = null;
+                $scope.memorisedOptions = false;
 
                 /**
-                 * @method applyCarouselStyles
-                 * @param carouselElement {angular.element}
+                 * @property originalCount
+                 * @type {Number}
+                 */
+                $scope.originalCount = 0;
+
+                /**
+                 * @property partial
+                 * @type {String}
+                 */
+                $scope.partial = carouselOptions.FIGURE_PARTIAL_PATH;
+
+                /**
+                 * @method applyBaseElementStyles
+                 * @param baseElement {angular.element}
                  * @return {void}
                  */
-                $scope.applyCarouselStyles = function applyCarouselStyles(carouselElement) {
+                $scope.applyBaseElementStyles = function applyBaseElementStyles(baseElement) {
 
-                    console.log($scope.originalDimension);
-
-                    carouselElement.css({
-                        width: $scope.originalDimension + 'px',
+                    baseElement.css({
+                        width: carouselOptions.DIMENSION_WIDTH + 'px',
                         height: carouselOptions.DIMENSION_HEIGHT + 'px',
-                        position: 'relative',
+                        position: 'absolute',
                         perspective: carouselOptions.PERSPECTIVE + 'px',
                         display: 'block'
                     });
@@ -89,132 +147,55 @@
                 };
 
                 /**
-                 * @method appendData
-                 * @param figureElement {angular.element}
-                 * @param model {Array|Object|String}
+                 * @method applyContainerElementStyles
+                 * @param containerElement {angular.element}
+                 * @param translateZ {Number}
                  * @return {void}
                  */
-                $scope.appendData = function appendData(figureElement, model) {
-                    
-                    if ($angular.isArray(model) && model[0].picture) {
-                        $scope.addPictureModels(figureElement, model);
-                        return;
-                    }
+                $scope.applyContainerElementStyles = function applyContainerElementStyles(containerElement, translateZ) {
 
-                    $scope.addPicture(figureElement, model);
-
-                };
-
-                /**
-                 * Responsible for adding a simple picture source to the figure element.
-                 *
-                 * @method addPicture
-                 * @param figureElement {angular.element}
-                 * @param picture {String}
-                 * @return {void}
-                 */
-                $scope.addPicture = function addPicture(figureElement, picture) {
-
-                    figureElement.css({
-                        backgroundImage: 'url("' + picture + '")',
-                        backgroundRepeat: 'no-repeat'
+                    containerElement.css({
+                        width: '100%',
+                        height: '100%',
+                        position: 'absolute',
+                        transformStyle: 'preserve-3d',
+                        transform: 'translateZ(-' + translateZ + 'px) rotateY(0deg)'
                     });
 
                 };
 
                 /**
-                 * Responsible for adding an array of pictures which are represented as models, potentially
-                 * having a textual caption as well.
-                 *
-                 * @method addPictureModels
-                 * @param figureElement {angular.element}
-                 * @param pictureModels {Array}
+                 * @method applyFigureElementStyles
+                 * @param index {Number}
                  * @return {void}
                  */
-                $scope.addPictureModels = function addPictureModels(figureElement, pictureModels) {
+                $scope.applyFigureElementStyles = function applyFigureElementStyles(index) {
 
-                    $angular.forEach(pictureModels, function forEach(pictureModel) {
-
-                        var divElement = $angular.element('<div />');
-
-                        divElement.css({
-                            backgroundImage: 'url("' + pictureModel.picture + '")',
-                            backgroundRepeat: 'no-repeat'
-                        });
-
-                        figureElement.append(divElement);
-
-                    });
-
-                };
-
-                /**
-                 * @method createTransformElement
-                 * @param baseElement {angular.element}
-                 * @param translateZ {Number}
-                 * @return {angular.element}
-                 */
-                $scope.createTransformElement = function createTransformElement(baseElement, translateZ) {
-
-                    var carousel = baseElement.find('section');
-
-                    if (carousel.length === 0) {
-
-                        // Append node that will handle the `transform-style`.
-                        carousel = $angular.element('<section />');
-                        baseElement.append(carousel);
-
-                        carousel.css({
-                            width: '100%',
-                            height: '100%',
-                            position: 'absolute',
-                            transformStyle: 'preserve-3d',
-                            transform: 'translateZ(-' + translateZ + 'px) rotateY(0deg)'
-                        });
-
-                    }
-
-                    return carousel;
-
-                };
-
-                /**
-                 * @method addFigureElement
-                 * @param baseElement {angular.element}
-                 * @param degree {Number}
-                 * @param translateZ {Number}
-                 * @return {angular.element}
-                 */
-                $scope.addFigureElement = function addFigureElement(baseElement, degree, translateZ) {
-
-                    // Render the HTML for the carousel if it hasn't been rendered already.
-                    var transformElement = $scope.createTransformElement(baseElement, translateZ),
-                        figureElement    = $angular.element('<figure />');
-
-                    transformElement.append(figureElement);
+                    var figureElement = $angular.element($scope.baseElement.find('figure')[index]),
+                        degree        = ($scope.dimensionDegree * index);
 
                     figureElement.css({
                         display: 'block',
                         position: 'absolute',
-                        width: (carouselOptions.DIMENSION_WIDTH - carouselOptions.DIMENSION_SPACING) + 'px',
-//                        width: (carouselOptions.DIMENSION_WIDTH) + 'px',
-//                        width: '100%',
+                        width: ($scope.currentDimensionWidth - carouselOptions.DIMENSION_SPACING) + 'px',
                         height: carouselOptions.DIMENSION_HEIGHT + 'px',
                         backfaceVisibility: carouselOptions.BACKFACE_VISIBILITY,
-                        transform: 'rotateY(' + degree + 'deg) translateZ(' + translateZ + 'px)'
+                        transform: 'rotateY(' + degree + 'deg) translateZ(' + $scope.translateZ + 'px)'
                     });
-                    
-                    return figureElement;
 
                 };
 
                 /**
-                 * @method removeFigureElements
-                 * @param baseElement {angular.element}
+                 * @method applyBaseElementOffset
+                 * @param containerElement {angular.element}
                  * @return {void}
                  */
-                $scope.removeFigureElements = function removeFigureElements(baseElement) {
-                    baseElement.find('figure').remove();
+                $scope.applyContainerElementOffset = function applyContainerElementOffset(containerElement) {
+
+                    containerElement.css({
+                        left: '-' + (($scope.currentDimensionWidth - carouselOptions.DIMENSION_WIDTH) / 2) + 'px'
+                    });
+
                 };
 
             }],
@@ -222,53 +203,52 @@
             /**
              * @method link
              * @param scope {Object}
-             * @param carouselElement {angular.element}
+             * @param baseElement {angular.element}
              * @return {void}
              */
-            link: function link(scope, carouselElement) {
+            link: function link(scope, baseElement) {
 
-                scope.$watch('pictures', function modelUpdated() {
+                // Memorise the original values for maintaining the carousel's width, if the developer
+                // chooses this options.
+                scope.currentDimensionWidth = carouselOptions.DIMENSION_WIDTH;
 
-                    var dimensionCount  = scope.pictures.length,
-                        dimensionDegree = 360 / dimensionCount;
+                scope.$watch('collection', function collectionChanged() {
 
-                    if (scope.originalWidth === null) {
+                    if (scope.collection.length === 0) {
+                        return;
+                    }
 
-                        // For maintaining the width we must save the original width of the carousel.
-                        scope.originalWidth = carouselOptions.DIMENSION_WIDTH * dimensionCount;
+                    var containerElement = $angular.element(baseElement.find('section')[0]),
+                        dimensionCount   = scope.collection.length,
+                        dimensionDegree  = 360 / dimensionCount,
+                        radius           = (carouselOptions.DIMENSION_WIDTH / 2),
+                        translateZ       = $math.round(radius / $math.tan($math.PI / dimensionCount));
+
+                    scope.baseElement     = baseElement;
+                    scope.dimensionDegree = dimensionDegree;
+                    scope.translateZ      = translateZ;
+
+                    if (!scope.memorisedOptions) {
+
+                        // Memorise the original length of the items in the carousel, as well as the original
+                        // Z axis value.
+                        scope.originalCount      = scope.collection.length;
+                        scope.originalTranslateZ = translateZ;
+                        scope.memorisedOptions   = true;
 
                     }
 
-                    if (scope.originalDimension === null) {
+                    // Apply the styles for the base and container elements.
+                    scope.applyBaseElementStyles(baseElement);
+                    scope.applyContainerElementStyles(containerElement, translateZ);
 
-                        // Also memorise the original dimension size.
-                        scope.originalDimension = carouselOptions.DIMENSION_WIDTH;
-
-                    }
-
-                    scope.removeFigureElements(carouselElement);
-                    scope.applyCarouselStyles(carouselElement);
-
-                    if (carouselOptions.MAINTAIN_WIDTH) {
+                    if (carouselOptions.MAINTAIN_ASPECT_RATIO) {
 
                         // If we're maintaining the width then we need to calculate the new width for each
                         // dimension based on the count of the dimensions.
-                        carouselOptions.DIMENSION_WIDTH = scope.originalWidth / dimensionCount;
-
-                        carouselElement.find('section').css({
-                            left: '-' + ((carouselOptions.DIMENSION_WIDTH - scope.originalDimension) / 2) + 'px'
-                        });
-
-                    }
-
-                    var currentDegree = 0,
-                        translateZ    = $math.round((carouselOptions.DIMENSION_WIDTH / 2) / $math.tan($math.PI / dimensionCount));
-
-                    for (var index = 0; index < dimensionCount; index++) {
-
-                        // Add the figure element to the carousel with its unique degree.
-                        var figureElement = scope.addFigureElement(carouselElement, currentDegree += dimensionDegree, translateZ);
-                        scope.appendData(figureElement, scope.pictures[index]);
+                        scope.currentDimensionWidth = (carouselOptions.DIMENSION_WIDTH * scope.originalCount) / dimensionCount;
+                        scope.translateZ   = scope.originalTranslateZ;
+                        scope.applyContainerElementOffset(containerElement);
 
                     }
 
@@ -278,6 +258,6 @@
 
         };
 
-    });
+    }]);
 
 })(window.Math, window.angular);

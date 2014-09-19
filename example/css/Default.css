@@ -9,13 +9,7 @@ body {
     width: 100%;
 }
 
-carousel {
-    /*border: 1px solid red;*/
-}
-
 carousel section {
-    /*border: 1px solid green;*/
-    transform: translateZ(-2000px) rotateY(0deg) !important;
             animation: revolve 120s infinite linear;
          -o-animation: revolve 120s infinite linear;
        -moz-animation: revolve 120s infinite linear;
@@ -23,7 +17,7 @@ carousel section {
 }
 
 @keyframes revolve {
-    0% { transform: translateZ(-2000px) rotateY(0deg); }
+    0% { transform: translateZ(-2000px) rotateY(0deg) }
     100% { transform: translateZ(-2000px) rotateY(360deg); }
 }
 
@@ -48,6 +42,7 @@ carousel section figure div {
     background-size: contain;
     background-position: center center;
     background-color: white;
+    background-repeat: no-repeat;
     box-sizing: border-box;
     border: 1px solid rgba(0, 0, 0, .25);
 }

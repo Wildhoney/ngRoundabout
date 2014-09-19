@@ -103,7 +103,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
 
     grunt.registerTask('build', ['concat', 'uglify', 'copy', 'compress']);
-    grunt.registerTask('test', ['jshint', 'karma']);
+    grunt.registerTask('test', ['jshint']);
     grunt.registerTask('default', ['test', 'build']);
 
 };
