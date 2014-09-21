@@ -15,6 +15,7 @@ script:
 
 deploy:
   provider: heroku
+  all_branches: true
   api_key:
     secure: j4VrKwDJetYtYLRBBSbnPXtOsg82yPOVKRCkopbQShoY0OIb7PIGzg0BvrEHHEmQceQEGQFLRm9ru/igmACjgscKzHBtVMxRt5a2AUP923CrS5cNRJbnyoMg0aFn3k0yAZyzXB9xkFsAXmnPNAfXMqG9W2QKLxXS03yLqzSL//s=
   app: ng-carouselng-carousel
