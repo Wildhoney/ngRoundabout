@@ -4,3 +4,4 @@
 !/example/js/vendor/.gitkeep
 /dist/custom/*
 !/dist/custom/.gitkeep
+/example/images/*

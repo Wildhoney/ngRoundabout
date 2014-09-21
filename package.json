@@ -1,6 +1,6 @@
 {
   "name": "ng-carousel",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Three-dimensional HTML5 carousel implemented in Angular.js.",
   "main": "dist/ng-carousel.js",
   "directories": {
