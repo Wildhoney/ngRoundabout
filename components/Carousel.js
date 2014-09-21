@@ -1,4 +1,4 @@
-(function ngCarousel($math, $angular) {
+(function ngCarousel($math, $angular, $modernizr) {
 
     "use strict";
 
@@ -7,7 +7,12 @@
      * @author Adam Timberlake
      * @link https://github.com/Wildhoney/ngCarousel
      */
-    var app = $angular.module('ngCarousel', []);
+    var app = $angular.module('ngCarousel', []).run(function run() {
+
+        // Add test for "preserve-3d" transform style.
+        $modernizr.addTest('preserve3d', $modernizr.testAllProps('transformStyle', 'preserve-3d'));
+
+    });
 
     /**
      * @constant carouselOptions
@@ -139,9 +144,9 @@
                     baseElement.css({
                         width: carouselOptions.DIMENSION_WIDTH + 'px',
                         height: carouselOptions.DIMENSION_HEIGHT + 'px',
-                        position: 'absolute',
-                        perspective: carouselOptions.PERSPECTIVE + 'px',
-                        display: 'block'
+                        display: 'block',
+                        position: 'relative',
+                        perspective: carouselOptions.PERSPECTIVE + 'px'
                     });
 
                 };
@@ -158,8 +163,8 @@
                         width: '100%',
                         height: '100%',
                         position: 'absolute',
-                        transformStyle: 'preserve-3d',
-                        transform: 'translateZ(-' + translateZ + 'px) rotateY(0deg)'
+                        transform: 'translateZ(-' + translateZ + 'px) rotateY(0deg)',
+                        transformStyle: 'preserve-3d'
                     });
 
                 };
@@ -175,14 +180,22 @@
                         degree        = ($scope.dimensionDegree * index);
 
                     figureElement.css({
-                        display: 'block',
-                        position: 'absolute',
                         width: ($scope.currentDimensionWidth - carouselOptions.DIMENSION_SPACING) + 'px',
                         height: carouselOptions.DIMENSION_HEIGHT + 'px',
-                        backfaceVisibility: carouselOptions.BACKFACE_VISIBILITY,
-                        transform: 'rotateY(' + degree + 'deg) translateZ(' + $scope.translateZ + 'px)'
+                        display: 'block',
+                        position: 'absolute',
+                        transform: 'rotateY(' + degree + 'deg) translateZ(' + $scope.translateZ + 'px)',
+                        backfaceVisibility: carouselOptions.BACKFACE_VISIBILITY
                     });
 
+                };
+
+                /**
+                 * @method supports3DTransforms
+                 * @return {Boolean}
+                 */
+                $scope.supports3DTransforms = function() {
+                    return !$modernizr.preserve3d;
                 };
 
                 /**
@@ -224,17 +237,17 @@
                         radius           = (carouselOptions.DIMENSION_WIDTH / 2),
                         translateZ       = $math.round(radius / $math.tan($math.PI / dimensionCount));
 
+                    scope.translateZ      = translateZ;
                     scope.baseElement     = baseElement;
                     scope.dimensionDegree = dimensionDegree;
-                    scope.translateZ      = translateZ;
 
                     if (!scope.memorisedOptions) {
 
                         // Memorise the original length of the items in the carousel, as well as the original
                         // Z axis value.
                         scope.originalCount      = scope.collection.length;
-                        scope.originalTranslateZ = translateZ;
                         scope.memorisedOptions   = true;
+                        scope.originalTranslateZ = translateZ;
 
                     }
 
@@ -246,8 +259,8 @@
 
                         // If we're maintaining the width then we need to calculate the new width for each
                         // dimension based on the count of the dimensions.
+                        scope.translateZ            = scope.originalTranslateZ;
                         scope.currentDimensionWidth = (carouselOptions.DIMENSION_WIDTH * scope.originalCount) / dimensionCount;
-                        scope.translateZ   = scope.originalTranslateZ;
                         scope.applyContainerElementOffset(containerElement);
 
                     }
@@ -260,4 +273,4 @@
 
     }]);
 
-})(window.Math, window.angular);
+})(window.Math, window.angular, window.Modernizr);

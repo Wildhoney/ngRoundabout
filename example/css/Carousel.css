@@ -1,0 +1,41 @@
+section.carousel {
+    margin: auto;
+}
+
+section.carousel section {
+            animation: revolve 30s infinite linear;
+         -o-animation: revolve 30s infinite linear;
+       -moz-animation: revolve 30s infinite linear;
+    -webkit-animation: revolve 30s infinite linear;
+}
+
+@keyframes revolve {
+    0%   { transform: translateZ(-2000px) rotateY(0deg) }
+    100% { transform: translateZ(-2000px) rotateY(360deg); }
+}
+
+@-o-keyframes revolve {
+    0%   { transform: translateZ(-2000px) rotateY(0deg); }
+    100% { transform: translateZ(-2000px) rotateY(360deg); }
+}
+
+@-moz-keyframes revolve {
+    0%   { transform: translateZ(-2000px) rotateY(0deg); }
+    100% { transform: translateZ(-2000px) rotateY(360deg); }
+}
+
+@-webkit-keyframes revolve {
+    0%   { transform: translateZ(-2000px) rotateY(0deg); }
+    100% { transform: translateZ(-2000px) rotateY(360deg); }
+}
+
+section.carousel section figure div {
+    height: 100%;
+    margin-bottom: 5%;
+    background-size: contain;
+    background-position: center center;
+    background-color: white;
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+    border: 1px solid rgba(0, 0, 0, .15);
+}

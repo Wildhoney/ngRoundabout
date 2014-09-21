@@ -3,50 +3,36 @@
     padding: 0;
 }
 
-body {
-    margin: 100px 450px;
-    text-align: center;
+html {
+    height: 100%;
     width: 100%;
 }
 
-carousel section {
-            animation: revolve 120s infinite linear;
-         -o-animation: revolve 120s infinite linear;
-       -moz-animation: revolve 120s infinite linear;
-    -webkit-animation: revolve 120s infinite linear;
+body {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, .05);
 }
 
-@keyframes revolve {
-    0% { transform: translateZ(-2000px) rotateY(0deg) }
-    100% { transform: translateZ(-2000px) rotateY(360deg); }
+section.carousel-container {
+    margin: auto;
+    display: table;
+    height: 100%;
+    width: 100%;
 }
 
-@-o-keyframes revolve {
-    0% { transform: translateZ(-2000px) rotateY(0deg); }
-    100% { transform: translateZ(-2000px) rotateY(360deg); }
+section.carousel-container div.carousel-row {
+    display: table-row;
+    height: 100%;
+    width: 100%;
 }
 
-@-moz-keyframes revolve {
-    0% { transform: translateZ(-2000px) rotateY(0deg); }
-    100% { transform: translateZ(-2000px) rotateY(360deg); }
-}
-
-@-webkit-keyframes revolve {
-    0% { transform: translateZ(-2000px) rotateY(0deg); }
-    100% { transform: translateZ(-2000px) rotateY(360deg); }
-}
-
-carousel section figure div {
-    height: 30%;
-    margin-bottom: 5%;
-    background-size: contain;
-    background-position: center center;
-    background-color: white;
-    background-repeat: no-repeat;
-    box-sizing: border-box;
-    border: 1px solid rgba(0, 0, 0, .25);
-}
-
-carousel section figure div:last-of-type {
-    margin-bottom: 0;
+section.carousel-container div.carousel-row div.carousel-cell {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    height: 100%;
+    width: 100%;
 }

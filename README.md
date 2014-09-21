@@ -9,4 +9,6 @@ ngCarousel
 
 * **Heroku**: [http://ng-carousel.herokuapp.com/](http://ng-carousel.herokuapp.com/)
 * **Bower:** `bower install ng-carousel`
+
 ---
+
