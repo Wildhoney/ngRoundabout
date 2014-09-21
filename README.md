@@ -8,7 +8,7 @@ ngCarousel
 ![License MIT](http://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat)
 
 * **Heroku**: [http://ng-carousel.herokuapp.com/](http://ng-carousel.herokuapp.com/)
-* **Bower:** `bower install ng-carousel`
+* **Bower:** `bower install ngcarousel`
 
 ---
 
