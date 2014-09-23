@@ -54,6 +54,12 @@
         PERSPECTIVE: 1000,
 
         /**
+         * @property TRANSLATE_Z
+         * @type {Number|null}
+         */
+        TRANSLATE_Z: -2000,
+
+        /**
          * @constant BACKFACE_VISIBILITY
          * @type {String}
          */
@@ -81,7 +87,7 @@
     /**
      * @directive Roundabout
      */
-    app.directive('roundabout', ['roundaboutOptions', function RoundaboutDirective(roundaboutOptions) {
+    app.directive('roundabout', ['$window', 'roundaboutOptions', function RoundaboutDirective($window, roundaboutOptions) {
 
         return {
 
@@ -108,7 +114,8 @@
              * @type {Object}
              */
             scope: {
-                collection: '=ngModel'
+                collection: '=ngModel',
+                dimension: '=dimension'
             },
 
             /**
@@ -169,11 +176,14 @@
                  */
                 $scope.applyContainerElementStyles = function applyContainerElementStyles(containerElement, translateZ) {
 
+                    translateZ = (roundaboutOptions.TRANSLATE_Z !== null) ? roundaboutOptions.TRANSLATE_Z
+                                                                          : '-' + translateZ;
+
                     containerElement.css({
                         width: '100%',
                         height: '100%',
                         position: 'absolute',
-                        transform: 'translateZ(-' + translateZ + 'px) rotateY(0deg)',
+                        transform: 'translateZ(' + translateZ + 'px) rotateY(0deg)',
                         transformStyle: 'preserve-3d'
                     });
 
@@ -234,6 +244,27 @@
                 // Memorise the original values for maintaining the roundabout's width, if the developer
                 // chooses this options.
                 scope.currentDimensionWidth = roundaboutOptions.DIMENSION_WIDTH;
+
+                scope.$watch('dimension', function dimensionChanged() {
+
+                    // Calculate at which angle the desired dimension is.
+                    var angle = scope.dimensionDegree * scope.dimension;
+
+                    if ($angular.isNumber(angle)) {
+
+                        // Apply the translateZ property since it's been defined.
+                        var containerElement = $angular.element(baseElement.find('section')[0]),
+                            translateZ       = (roundaboutOptions.TRANSLATE_Z !== null) ? roundaboutOptions.TRANSLATE_Z : 0;
+
+                        containerElement.css({
+                            transform: 'translateZ(' + translateZ + 'px) rotateY(' + angle + 'deg)'
+                        });
+
+                        console.log(containerElement.css('transform'));
+
+                    }
+
+                });
 
                 scope.$watchCollection('collection', function collectionChanged() {
 

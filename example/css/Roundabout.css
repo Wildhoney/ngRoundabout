@@ -3,6 +3,7 @@ section.carousel {
 }
 
 section.carousel section {
+    /*transform: translateZ(-2000px) rotateY(90deg) !important;*/
             animation: revolve 30s infinite linear;
          -o-animation: revolve 30s infinite linear;
        -moz-animation: revolve 30s infinite linear;

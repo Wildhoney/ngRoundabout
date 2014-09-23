@@ -13,6 +13,20 @@
          */
         $scope.pictures = [];
 
+        /**
+         * @property dimension
+         * @type {Number}
+         */
+        $scope.dimension = 0;
+
+        /**
+         * @method nextDimension
+         * @return {void}
+         */
+        $scope.nextDimension = function nextDimension() {
+            $scope.dimension++;
+        };
+
         // Dynamically retrieve all of the images.
         $http.get('imgur.json').then(function then(response) {
             $scope.pictures = response.data.splice(0, 20);

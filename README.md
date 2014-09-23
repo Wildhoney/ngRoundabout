@@ -62,6 +62,18 @@ Import `roundaboutOptions` into your controller, and then you will have access t
 
 ![ngRoundabout Screenshot](http://i.imgur.com/8MaKMCX.png)
 
+# Traversing
+
+You can traverse the carousel by binding to the `dimension` property from within your HTML:
+
+```html
+<carousel ng-model="pictures" data-dimension="dimension"></carousel>
+```
+
+`ngRoundabout` will simply multiply the `dimension` by the angle of the dimensions. Whenever you modify the `dimension` property from inside your controller, `ngRoundabout` will move to that dimension.
+
+Please note that you may need to define your custom `roundaboutOptions.TRANSLATE_Z` if you are modifying the `translateZ` from within your CSS.
+
 # Maintain Aspect Ratio
 
 By default `ngRoundabout` will not maintain the width &mdash; or *aspect ratio* &mdash; of the carousel when items are added and/or removed. By defining `MAINTAIN_ASPECT_RATIO` as `true`, `ngRoundabout` will maintain the width.

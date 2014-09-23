@@ -1,6 +1,6 @@
 {
   "name": "ng-roundabout",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Three-dimensional HTML5 carousel implemented in Angular.js.",
   "main": "dist/ng-roundabout.js",
   "directories": {
