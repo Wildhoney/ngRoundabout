@@ -32,10 +32,13 @@ section.carousel section {
 section.carousel section figure div {
     height: 100%;
     margin-bottom: 5%;
-    background-size: contain;
+    background-size: cover;
     background-position: center center;
     background-color: white;
     background-repeat: no-repeat;
     box-sizing: border-box;
-    border: 1px solid rgba(0, 0, 0, .15);
+}
+
+section.carousel {
+    margin-top: -150px;
 }

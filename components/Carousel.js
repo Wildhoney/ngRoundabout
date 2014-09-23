@@ -1,4 +1,9 @@
-(function ngCarousel($math, $angular, $modernizr) {
+/**
+ * @param $angular {window.angular}
+ * @param $math {window.Math}
+ * @param $modernize {window.Modernizr}
+ */
+(function ngCarousel($angular, $math, $modernizr) {
 
     "use strict";
 
@@ -9,13 +14,18 @@
      */
     var app = $angular.module('ngCarousel', []).run(function run() {
 
-        // Add test for "preserve-3d" transform style.
-        $modernizr.addTest('preserve3d', $modernizr.testAllProps('transformStyle', 'preserve-3d'));
+        if ($angular.isDefined($modernizr)) {
+
+            // Add test for "preserve-3d" transform style.
+            $modernizr.addTest('preserve3d', $modernizr.testAllProps('transformStyle', 'preserve-3d'));
+
+        }
 
     });
 
     /**
      * @constant carouselOptions
+     * @type {Object}
      */
     app.constant('carouselOptions', {
 
@@ -64,7 +74,7 @@
          * @constant FIGURE_PARTIAL_PATH
          * @type {String}
          */
-        FIGURE_PARTIAL_PATH: 'figure.html'
+        FIGURE_PARTIAL_PATH: 'partials/carousel.html'
 
     });
     
@@ -137,11 +147,11 @@
                 /**
                  * @method applyBaseElementStyles
                  * @param baseElement {angular.element}
-                 * @return {void}
+                 * @return {angular.element}
                  */
                 $scope.applyBaseElementStyles = function applyBaseElementStyles(baseElement) {
 
-                    baseElement.css({
+                    return baseElement.css({
                         width: carouselOptions.DIMENSION_WIDTH + 'px',
                         height: carouselOptions.DIMENSION_HEIGHT + 'px',
                         display: 'block',
@@ -192,10 +202,10 @@
 
                 /**
                  * @method supports3DTransforms
-                 * @return {Boolean}
+                 * @return {Boolean|null}
                  */
-                $scope.supports3DTransforms = function() {
-                    return !$modernizr.preserve3d;
+                $scope.supports3DTransforms = function supports3DTransforms() {
+                    return $angular.isDefined($modernizr) ? !$modernizr.preserve3d : null;
                 };
 
                 /**
@@ -225,7 +235,7 @@
                 // chooses this options.
                 scope.currentDimensionWidth = carouselOptions.DIMENSION_WIDTH;
 
-                scope.$watch('collection', function collectionChanged() {
+                scope.$watchCollection('collection', function collectionChanged() {
 
                     if (scope.collection.length === 0) {
                         return;
@@ -265,7 +275,7 @@
 
                     }
 
-                }, true);
+                });
 
             }
 
@@ -273,4 +283,4 @@
 
     }]);
 
-})(window.Math, window.angular, window.Modernizr);
+})(window.angular, window.Math, window.Modernizr);

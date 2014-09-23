@@ -13,7 +13,7 @@ body {
     height: 100%;
     text-align: center;
     overflow: hidden;
-    background-color: rgba(0, 0, 0, .05);
+    /*background-color: rgba(0, 0, 0, .05);*/
 }
 
 section.carousel-container {
@@ -35,4 +35,24 @@ section.carousel-container div.carousel-row div.carousel-cell {
     vertical-align: middle;
     height: 100%;
     width: 100%;
+}
+
+section.carousel-container section.carousel-shadow {
+    width: 530px;
+    height: 100px;
+    -webkit-filter: blur(20px);
+    z-index: -1;
+    position: relative;
+    background-color: rgba(0, 0, 0, .45);
+    margin: auto;
+    margin-top: -175px;
+    border-radius: 50px;
+}
+
+p.apology {
+    color: rgba(0, 0, 0, .25);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    text-shadow: 1px 1px 0 white;
+    margin-top: 50px;
 }
