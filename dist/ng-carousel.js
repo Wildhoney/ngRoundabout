@@ -3,16 +3,16 @@
  * @param $math {window.Math}
  * @param $modernize {window.Modernizr}
  */
-(function ngCarousel($angular, $math, $modernizr) {
+(function ngRoundabout($angular, $math, $modernizr) {
 
     "use strict";
 
     /**
-     * @module ngCarousel
+     * @module ngRoundabout
      * @author Adam Timberlake
-     * @link https://github.com/Wildhoney/ngCarousel
+     * @link https://github.com/Wildhoney/ngRoundabout
      */
-    var app = $angular.module('ngCarousel', []).run(function run() {
+    var app = $angular.module('ngRoundabout', []).run(function run() {
 
         if ($angular.isDefined($modernizr)) {
 

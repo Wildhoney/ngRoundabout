@@ -1,8 +1,8 @@
 {
   "name": "ng-carousel",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "description": "Three-dimensional HTML5 carousel implemented in Angular.js.",
-  "homepage": "https://github.com/Wildhoney/ngCarousel",
+  "homepage": "https://github.com/Wildhoney/ngRoundabout",
   "authors": [
     "Adam Timberlake <adam.timberlake@gmail.com>"
   ],

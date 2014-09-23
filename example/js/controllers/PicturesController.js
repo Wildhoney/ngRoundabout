@@ -3,7 +3,7 @@
     /**
      * @controller PicturesController
      */
-    $angular.module('carouselApp').controller('PicturesController',
+    $angular.module('roundaboutApp').controller('PicturesController',
 
     function PicturesController($scope, $http, carouselOptions) {
 

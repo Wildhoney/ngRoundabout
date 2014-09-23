@@ -1,6 +1,6 @@
 (function($angular) {
 
-    beforeEach(module('ngCarousel'));
+    beforeEach(module('ngRoundabout'));
 
     /**
      * @method compileDirective
