@@ -8,7 +8,7 @@
     <script type="text/javascript" src="js/modernizr-3.0.0-beta.js"></script>
     <script type="text/javascript" src="js/vendor/angular/angular.js"></script>
     <script type="text/javascript" src="js/vendor/angular-mocks/angular-mocks.js"></script>
-    <script type="text/javascript" src="js/vendor/ng-carousel/Carousel.js"></script>
+    <script type="text/javascript" src="js/vendor/ng-roundabout/Roundabout.js"></script>
 
     <!-- Application! -->
     <script type="text/javascript" src="js/Default.js"></script>
@@ -16,7 +16,7 @@
 
     <!-- Prettify! -->
     <link rel="stylesheet" type="text/css" href="css/Default.css" />
-    <link rel="stylesheet" type="text/css" href="css/Carousel.css" />
+    <link rel="stylesheet" type="text/css" href="css/Roundabout.css" />
 
 </head>
 <body ng-app="roundaboutApp" ng-controller="PicturesController">
@@ -24,8 +24,8 @@
     <section class="carousel-container">
         <div class="carousel-row">
             <div class="carousel-cell">
-                <section data-carousel class="carousel" ng-model="pictures"></section>
-                <section class="carousel-shadow"></section>
+                <section data-roundabout class="carousel" ng-model="pictures"></section>
+                <section ng-show="pictures.length" class="carousel-shadow"></section>
                 <p class="apology">
                     Randomly taken from Imgur &ndash; and therefore I do not apologise for an overdose of cat pictures.
                 </p>

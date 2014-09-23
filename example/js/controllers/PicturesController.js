@@ -5,7 +5,7 @@
      */
     $angular.module('roundaboutApp').controller('PicturesController',
 
-    function PicturesController($scope, $http, carouselOptions) {
+    function PicturesController($scope, $http, roundaboutOptions) {
 
         /**
          * @property pictures
@@ -18,11 +18,11 @@
             $scope.pictures = response.data.splice(0, 20);
         });
 
-        // Define the options for the carousel module.
-        carouselOptions.FIGURE_PARTIAL_PATH   = 'partials/figure.html';
-        carouselOptions.MAINTAIN_ASPECT_RATIO = true;
-        carouselOptions.DIMENSION_HEIGHT      = 300;
-        carouselOptions.BACKFACE_VISIBILITY   = 'visible';
+        // Define the options for the roundabout module.
+        roundaboutOptions.FIGURE_PARTIAL_PATH   = 'partials/figure.html';
+        roundaboutOptions.MAINTAIN_ASPECT_RATIO = true;
+        roundaboutOptions.DIMENSION_HEIGHT      = 300;
+        roundaboutOptions.BACKFACE_VISIBILITY   = 'visible';
 
     });
 

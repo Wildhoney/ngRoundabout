@@ -24,10 +24,10 @@
     });
 
     /**
-     * @constant carouselOptions
+     * @constant roundaboutOptions
      * @type {Object}
      */
-    app.constant('carouselOptions', {
+    app.constant('roundaboutOptions', {
 
         /**
          * @constant DIMENSION_WIDTH
@@ -74,14 +74,14 @@
          * @constant FIGURE_PARTIAL_PATH
          * @type {String}
          */
-        FIGURE_PARTIAL_PATH: 'partials/carousel.html'
+        FIGURE_PARTIAL_PATH: 'partials/roundabout.html'
 
     });
     
     /**
-     * @directive Carousel
+     * @directive Roundabout
      */
-    app.directive('carousel', ['carouselOptions', function CarouselDirective(carouselOptions) {
+    app.directive('roundabout', ['roundaboutOptions', function RoundaboutDirective(roundaboutOptions) {
 
         return {
 
@@ -101,7 +101,7 @@
              * @property template
              * @type {String}
              */
-            template: '<section class="carousel-container"><figure ng-repeat="model in collection" ng-include="partial">{{applyFigureElementStyles($index)}}</figure></section>',
+            template: '<section class="roundabout-container"><figure ng-repeat="model in collection" ng-include="partial">{{applyFigureElementStyles($index)}}</figure></section>',
 
             /**
              * @property scope
@@ -142,7 +142,7 @@
                  * @property partial
                  * @type {String}
                  */
-                $scope.partial = carouselOptions.FIGURE_PARTIAL_PATH;
+                $scope.partial = roundaboutOptions.FIGURE_PARTIAL_PATH;
 
                 /**
                  * @method applyBaseElementStyles
@@ -152,11 +152,11 @@
                 $scope.applyBaseElementStyles = function applyBaseElementStyles(baseElement) {
 
                     return baseElement.css({
-                        width: carouselOptions.DIMENSION_WIDTH + 'px',
-                        height: carouselOptions.DIMENSION_HEIGHT + 'px',
+                        width: roundaboutOptions.DIMENSION_WIDTH + 'px',
+                        height: roundaboutOptions.DIMENSION_HEIGHT + 'px',
                         display: 'block',
                         position: 'relative',
-                        perspective: carouselOptions.PERSPECTIVE + 'px'
+                        perspective: roundaboutOptions.PERSPECTIVE + 'px'
                     });
 
                 };
@@ -190,12 +190,12 @@
                         degree        = ($scope.dimensionDegree * index);
 
                     figureElement.css({
-                        width: ($scope.currentDimensionWidth - carouselOptions.DIMENSION_SPACING) + 'px',
-                        height: carouselOptions.DIMENSION_HEIGHT + 'px',
+                        width: ($scope.currentDimensionWidth - roundaboutOptions.DIMENSION_SPACING) + 'px',
+                        height: roundaboutOptions.DIMENSION_HEIGHT + 'px',
                         display: 'block',
                         position: 'absolute',
                         transform: 'rotateY(' + degree + 'deg) translateZ(' + $scope.translateZ + 'px)',
-                        backfaceVisibility: carouselOptions.BACKFACE_VISIBILITY
+                        backfaceVisibility: roundaboutOptions.BACKFACE_VISIBILITY
                     });
 
                 };
@@ -216,7 +216,7 @@
                 $scope.applyContainerElementOffset = function applyContainerElementOffset(containerElement) {
 
                     containerElement.css({
-                        left: '-' + (($scope.currentDimensionWidth - carouselOptions.DIMENSION_WIDTH) / 2) + 'px'
+                        left: '-' + (($scope.currentDimensionWidth - roundaboutOptions.DIMENSION_WIDTH) / 2) + 'px'
                     });
 
                 };
@@ -231,9 +231,9 @@
              */
             link: function link(scope, baseElement) {
 
-                // Memorise the original values for maintaining the carousel's width, if the developer
+                // Memorise the original values for maintaining the roundabout's width, if the developer
                 // chooses this options.
-                scope.currentDimensionWidth = carouselOptions.DIMENSION_WIDTH;
+                scope.currentDimensionWidth = roundaboutOptions.DIMENSION_WIDTH;
 
                 scope.$watchCollection('collection', function collectionChanged() {
 
@@ -244,7 +244,7 @@
                     var containerElement = $angular.element(baseElement.find('section')[0]),
                         dimensionCount   = scope.collection.length,
                         dimensionDegree  = 360 / dimensionCount,
-                        radius           = (carouselOptions.DIMENSION_WIDTH / 2),
+                        radius           = (roundaboutOptions.DIMENSION_WIDTH / 2),
                         translateZ       = $math.round(radius / $math.tan($math.PI / dimensionCount));
 
                     scope.translateZ      = translateZ;
@@ -253,7 +253,7 @@
 
                     if (!scope.memorisedOptions) {
 
-                        // Memorise the original length of the items in the carousel, as well as the original
+                        // Memorise the original length of the items in the roundabout, as well as the original
                         // Z axis value.
                         scope.originalCount      = scope.collection.length;
                         scope.memorisedOptions   = true;
@@ -265,12 +265,12 @@
                     scope.applyBaseElementStyles(baseElement);
                     scope.applyContainerElementStyles(containerElement, translateZ);
 
-                    if (carouselOptions.MAINTAIN_ASPECT_RATIO) {
+                    if (roundaboutOptions.MAINTAIN_ASPECT_RATIO) {
 
                         // If we're maintaining the width then we need to calculate the new width for each
                         // dimension based on the count of the dimensions.
                         scope.translateZ            = scope.originalTranslateZ;
-                        scope.currentDimensionWidth = (carouselOptions.DIMENSION_WIDTH * scope.originalCount) / dimensionCount;
+                        scope.currentDimensionWidth = (roundaboutOptions.DIMENSION_WIDTH * scope.originalCount) / dimensionCount;
                         scope.applyContainerElementOffset(containerElement);
 
                     }

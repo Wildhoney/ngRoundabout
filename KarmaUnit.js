@@ -6,7 +6,7 @@ module.exports = function(config) {
         files: [
             'example/js/vendor/angular/angular.js',
             'example/js/vendor/angular-mocks/angular-mocks.js',
-            'components/Carousel.js',
+            'components/Roundabout.js',
             'tests/*.Test.js'
         ],
         reporters: ['progress'],

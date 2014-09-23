@@ -8,9 +8,9 @@
      */
     var compileDirective = function compileDirective() {
 
-        var scope, html = '<div data-carousel ng-model="collection"></div>';
+        var scope, html = '<div data-roundabout ng-model="collection"></div>';
 
-        inject(function inject($rootScope, $compile) {;
+        inject(function inject($rootScope, $compile) {
 
             scope = $rootScope.$new();
             $compile(html)(scope);
@@ -31,7 +31,7 @@
 
     describe('Carousel', function() {
 
-        it('It should be able to apply CSS styles to various elements;', inject(function(carouselOptions) {
+        it('It should be able to apply CSS styles to various elements;', inject(function(roundaboutOptions) {
 
             var scope = compileDirective();
 
@@ -41,11 +41,11 @@
                 var baseElement       = createElement(),
                     styledBaseElement = scope.applyBaseElementStyles(baseElement);
 
-                expect(styledBaseElement.css('width')).toEqual(carouselOptions.DIMENSION_WIDTH + 'px');
-                expect(styledBaseElement.css('height')).toEqual(carouselOptions.DIMENSION_HEIGHT + 'px');
+                expect(styledBaseElement.css('width')).toEqual(roundaboutOptions.DIMENSION_WIDTH + 'px');
+                expect(styledBaseElement.css('height')).toEqual(roundaboutOptions.DIMENSION_HEIGHT + 'px');
                 expect(styledBaseElement.css('display')).toEqual('block');
                 expect(styledBaseElement.css('position')).toEqual('relative');
-                expect(styledBaseElement.css('perspective')).toEqual(carouselOptions.PERSPECTIVE + 'px');
+                expect(styledBaseElement.css('perspective')).toEqual(roundaboutOptions.PERSPECTIVE + 'px');
 
             })();
 
