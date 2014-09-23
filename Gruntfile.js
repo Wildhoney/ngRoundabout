@@ -71,7 +71,7 @@ module.exports = function(grunt) {
                 expand: true,
                 flatten: true,
                 src: ['components/*'],
-                dest: 'example/js/vendor/ng-carousel',
+                dest: 'example/js/vendor/ng-roundabout',
                 filter: 'isFile'
             },
             release: {
