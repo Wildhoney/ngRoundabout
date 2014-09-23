@@ -13,7 +13,7 @@ body {
     height: 100%;
     text-align: center;
     overflow: hidden;
-    /*background-color: rgba(0, 0, 0, .05);*/
+    background-color: rgba(0, 0, 0, .05);
 }
 
 section.carousel-container {
