@@ -172,14 +172,13 @@
                  * @method applyContainerElementStyles
                  * @param containerElement {angular.element}
                  * @param translateZ {Number}
-                 * @return {void}
+                 * @return {angular.element}
                  */
                 $scope.applyContainerElementStyles = function applyContainerElementStyles(containerElement, translateZ) {
 
-                    translateZ = (roundaboutOptions.TRANSLATE_Z !== null) ? roundaboutOptions.TRANSLATE_Z
-                                                                          : '-' + translateZ;
+                    translateZ = (roundaboutOptions.TRANSLATE_Z !== null) ? roundaboutOptions.TRANSLATE_Z : translateZ;
 
-                    containerElement.css({
+                    return containerElement.css({
                         width: '100%',
                         height: '100%',
                         position: 'absolute',
@@ -192,9 +191,12 @@
                 /**
                  * @method applyFigureElementStyles
                  * @param index {Number}
-                 * @return {void}
+                 * @param [returnElement=false] {Boolean}
+                 * @return {angular.element|void}
                  */
-                $scope.applyFigureElementStyles = function applyFigureElementStyles(index) {
+                $scope.applyFigureElementStyles = function applyFigureElementStyles(index, returnElement) {
+
+                    returnElement = !!returnElement || false;
 
                     var figureElement = $angular.element($scope.baseElement.find('figure')[index]),
                         degree        = ($scope.dimensionDegree * index);
@@ -208,6 +210,10 @@
                         backfaceVisibility: roundaboutOptions.BACKFACE_VISIBILITY
                     });
 
+                    if (returnElement) {
+                        return figureElement;
+                    }
+
                 };
 
                 /**
@@ -215,7 +221,7 @@
                  * @return {Boolean|null}
                  */
                 $scope.supports3DTransforms = function supports3DTransforms() {
-                    return $angular.isDefined($modernizr) ? !$modernizr.preserve3d : null;
+                    return $angular.isDefined($modernizr) ? $modernizr.preserve3d : null;
                 };
 
                 /**
@@ -242,7 +248,7 @@
             link: function link(scope, baseElement) {
 
                 // Memorise the original values for maintaining the roundabout's width, if the developer
-                // chooses this options.
+                // chooses this option.
                 scope.currentDimensionWidth = roundaboutOptions.DIMENSION_WIDTH;
 
                 scope.$watch('dimension', function dimensionChanged() {
@@ -259,8 +265,6 @@
                         containerElement.css({
                             transform: 'translateZ(' + translateZ + 'px) rotateY(' + angle + 'deg)'
                         });
-
-                        console.log(containerElement.css('transform'));
 
                     }
 
@@ -287,8 +291,8 @@
                         // Memorise the original length of the items in the roundabout, as well as the original
                         // Z axis value.
                         scope.originalCount      = scope.collection.length;
-                        scope.memorisedOptions   = true;
                         scope.originalTranslateZ = translateZ;
+                        scope.memorisedOptions   = true;
 
                     }
 
