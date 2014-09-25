@@ -107,7 +107,7 @@
              * @property template
              * @type {String}
              */
-            template: '<section class="roundabout-container"><figure ng-repeat="model in collection" ng-include="partial">{{applyFigureElementStyles($index)}}</figure></section>',
+            template: '<div class="container"><figure ng-repeat="model in collection" ng-include="partial">{{applyFigureElementStyles($index)}}</figure></div>',
 
             /**
              * @property scope
@@ -159,10 +159,8 @@
                 $scope.applyBaseElementStyles = function applyBaseElementStyles(baseElement) {
 
                     return baseElement.css({
-                        width: roundaboutOptions.DIMENSION_WIDTH + 'px',
-                        height: roundaboutOptions.DIMENSION_HEIGHT + 'px',
-                        display: 'block',
-                        position: 'relative',
+                        width:       roundaboutOptions.DIMENSION_WIDTH + 'px',
+                        height:      roundaboutOptions.DIMENSION_HEIGHT + 'px',
                         perspective: roundaboutOptions.PERSPECTIVE + 'px'
                     });
 
@@ -179,11 +177,7 @@
                     translateZ = (roundaboutOptions.TRANSLATE_Z !== null) ? roundaboutOptions.TRANSLATE_Z : translateZ;
 
                     return containerElement.css({
-                        width: '100%',
-                        height: '100%',
-                        position: 'absolute',
-                        transform: 'translateZ(' + translateZ + 'px) rotateY(0deg)',
-                        transformStyle: 'preserve-3d'
+                        transform: 'translateZ(' + translateZ + 'px) rotateY(0deg)'
                     });
 
                 };
@@ -237,6 +231,15 @@
 
                 };
 
+                /**
+                 * @method getContainerElement
+                 * @param baseElement {angular.element}
+                 * @return {angular.element}
+                 */
+                $scope.getContainerElement = function getContainerElement(baseElement) {
+                    return $angular.element(baseElement.find('div')[0]);
+                };
+
             }],
 
             /**
@@ -246,6 +249,9 @@
              * @return {void}
              */
             link: function link(scope, baseElement) {
+
+                baseElement.addClass('carousel');
+                baseElement.addClass('base');
 
                 // Memorise the original values for maintaining the roundabout's width, if the developer
                 // chooses this option.
@@ -259,7 +265,7 @@
                     if ($angular.isNumber(angle)) {
 
                         // Apply the translateZ property since it's been defined.
-                        var containerElement = $angular.element(baseElement.find('section')[0]),
+                        var containerElement = scope.getContainerElement(baseElement),
                             translateZ       = (roundaboutOptions.TRANSLATE_Z !== null) ? roundaboutOptions.TRANSLATE_Z : 0;
 
                         containerElement.css({
@@ -276,8 +282,7 @@
                         return;
                     }
 
-                    var containerElement = $angular.element(baseElement.find('section')[0]),
-                        dimensionCount   = scope.collection.length,
+                    var dimensionCount   = scope.collection.length,
                         dimensionDegree  = 360 / dimensionCount,
                         radius           = (roundaboutOptions.DIMENSION_WIDTH / 2),
                         translateZ       = $math.round(radius / $math.tan($math.PI / dimensionCount));
@@ -297,6 +302,7 @@
                     }
 
                     // Apply the styles for the base and container elements.
+                    var containerElement = scope.getContainerElement(baseElement);
                     scope.applyBaseElementStyles(baseElement);
                     scope.applyContainerElementStyles(containerElement, translateZ);
 
