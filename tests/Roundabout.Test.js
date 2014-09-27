@@ -40,7 +40,7 @@
         return $angular.element('<section />');
     };
 
-    describe('Carousel', function() {
+    describe('Roundabout', function() {
 
         it('Should be able to apply CSS styles to various elements;', inject(function(roundaboutOptions) {
 
@@ -54,8 +54,6 @@
 
                 expect(styledBaseElement.css('width')).toEqual(roundaboutOptions.DIMENSION_WIDTH + 'px');
                 expect(styledBaseElement.css('height')).toEqual(roundaboutOptions.DIMENSION_HEIGHT + 'px');
-                expect(styledBaseElement.css('display')).toEqual('block');
-                expect(styledBaseElement.css('position')).toEqual('relative');
                 expect(styledBaseElement.css('perspective')).toEqual(roundaboutOptions.PERSPECTIVE + 'px');
 
             })();
@@ -68,11 +66,7 @@
                     translateZ                = -4500,
                     styledContainerElement    = scope.applyContainerElementStyles(containerElement, translateZ);
 
-                expect(styledContainerElement.css('width')).toEqual('100%');
-                expect(styledContainerElement.css('height')).toEqual('100%');
-                expect(styledContainerElement.css('position')).toEqual('absolute');
                 expect(styledContainerElement.css('transform')).toEqual('translateZ(' + roundaboutOptions.TRANSLATE_Z + 'px) rotateY(0deg)');
-                expect(styledContainerElement.css('transformStyle')).toEqual('preserve-3d');
 
                 // If the `roundaboutOptions.TRANSLATE_Z` is `NULL` then `translateZ` should take precedence.
                 roundaboutOptions.TRANSLATE_Z = null;
@@ -95,8 +89,6 @@
 
                     expect(figureElement.css('width')).toEqual('240px');
                     expect(figureElement.css('height')).toEqual('300px');
-                    expect(figureElement.css('display')).toEqual('block');
-                    expect(figureElement.css('position')).toEqual('absolute');
                     expect(figureElement.css('transform')).toEqual('rotateY(' + expectedDegree + 'deg) translateZ(72px)');
                     expect(figureElement.css('backfaceVisibility')).toEqual('hidden');
 

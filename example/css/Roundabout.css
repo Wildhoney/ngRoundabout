@@ -11,6 +11,11 @@
     transform-style: preserve-3d;
 }
 
+.carousel.base div.container figure {
+    display: block;
+    position: absolute;
+}
+
 .carousel.base div.container figure div {
     height: 100%;
     margin-bottom: 5%;
