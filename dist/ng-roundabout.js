@@ -196,11 +196,9 @@
                         degree        = ($scope.dimensionDegree * index);
 
                     figureElement.css({
-                        width: ($scope.currentDimensionWidth - roundaboutOptions.DIMENSION_SPACING) + 'px',
-                        height: roundaboutOptions.DIMENSION_HEIGHT + 'px',
-                        display: 'block',
-                        position: 'absolute',
-                        transform: 'rotateY(' + degree + 'deg) translateZ(' + $scope.translateZ + 'px)',
+                        width:              ($scope.currentDimensionWidth - roundaboutOptions.DIMENSION_SPACING) + 'px',
+                        height:             roundaboutOptions.DIMENSION_HEIGHT + 'px',
+                        transform:          'rotateY(' + degree + 'deg) translateZ(' + $scope.translateZ + 'px)',
                         backfaceVisibility: roundaboutOptions.BACKFACE_VISIBILITY
                     });
 
